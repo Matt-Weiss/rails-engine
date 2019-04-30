@@ -1,8 +1,16 @@
-task import: :environment do
+task import: [:environment] do
   require 'csv'
+  Rake::Task["db:drop"].execute
+  Rake::Task["db:create"].execute
+  Rake::Task["db:migrate"].execute 
 
-  CSV.foreach('db/data/merchants.csv', :headers => true) do |row|
-    Merchant.create!(row.to_hash)
+  tables = ['merchants']
+
+  tables.each do |table|
+    model_name = table.camelize.singularize.constantize
+    CSV.foreach("db/data/#{table}.csv", :headers => true) do |row|
+      model_name.create!(row.to_h)
+    end
   end
 
 end
