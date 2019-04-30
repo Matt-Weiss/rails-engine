@@ -25,6 +25,18 @@ describe "Merchants API finders" do
     expect(merchant["id"]).to eq(expected_id)
   end
 
+  it "can search by created_at" do
+    create_list(:merchant, 3)
+    expected_creation = Merchant.first.created_at
+    # binding.pry
+
+    get "/api/v1/merchants/find?created_at=#{expected_creation}"
+
+    merchant = JSON.parse(response.body)
+    expect(response).to be_successful
+    expect(merchant["created_at"]).to eq(expected_creation.as_json)
+  end
+
   #created_at and #updated_at should be identical to the id test
 
   it "can find all by name" do
