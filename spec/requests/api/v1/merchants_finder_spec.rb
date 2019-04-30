@@ -6,11 +6,12 @@ describe "Merchants API finders" do
     create_list(:merchant, 3)
 
     get '/api/v1/merchants/find?name=MerchantName1'
+    # binding.pry
 
     merchant = JSON.parse(response.body)
 
     expect(response).to be_successful
-    expect(merchant["name"]).to eq('MerchantName1')
+    expect(merchant["data"]["attributes"]["name"]).to eq('MerchantName1')
 
   end
 
@@ -22,7 +23,7 @@ describe "Merchants API finders" do
 
     merchant = JSON.parse(response.body)
     expect(response).to be_successful
-    expect(merchant["id"]).to eq(expected_id)
+    expect(merchant["data"]["id"]).to eq(expected_id.to_s)
   end
 
   it "can search by created_at" do
@@ -33,8 +34,9 @@ describe "Merchants API finders" do
     get "/api/v1/merchants/find?created_at=#{expected_creation}"
 
     merchant = JSON.parse(response.body)
+    # binding.pry
     expect(response).to be_successful
-    expect(merchant["created_at"]).to eq(expected_creation.as_json)
+    expect(merchant["data"]["attributes"]["created_at"]).to eq(expected_creation.as_json)
   end
 
   #created_at and #updated_at should be identical to the id test
@@ -44,10 +46,10 @@ describe "Merchants API finders" do
     expected_name = Merchant.first.name
     get "/api/v1/merchants/find_all?name=#{expected_name}"
 
-    merchant = JSON.parse(response.body)[0]
+    merchant = JSON.parse(response.body)["data"][0]
     #even though we returned only one element it was in array format, indicating this should work
 
     expect(response).to be_successful
-    expect(merchant["name"]).to eq("#{expected_name}")
+    expect(merchant["attributes"]["name"]).to eq("#{expected_name}")
   end
 end
