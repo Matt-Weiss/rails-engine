@@ -2,9 +2,9 @@ task import: [:environment] do
   require 'csv'
   Rake::Task["db:drop"].execute
   Rake::Task["db:create"].execute
-  Rake::Task["db:migrate"].execute 
+  Rake::Task["db:migrate"].execute
 
-  tables = ['merchants']
+  tables = ['merchants', 'customers']
 
   tables.each do |table|
     model_name = table.camelize.singularize.constantize
