@@ -4,13 +4,14 @@ require 'pry'
 describe "Merchants API finders" do
   it "can search by name" do
     create_list(:merchant, 3)
+    expected_name = Merchant.first.name
 
-    get '/api/v1/merchants/find?name=MerchantName1'
+    get "/api/v1/merchants/find?name=#{expected_name}"
 
     merchant = JSON.parse(response.body)
 
     expect(response).to be_successful
-    expect(merchant["data"]["attributes"]["name"]).to eq('MerchantName1')
+    expect(merchant["data"]["attributes"]["name"]).to eq("#{expected_name}")
 
   end
 
