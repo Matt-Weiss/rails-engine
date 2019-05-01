@@ -4,7 +4,7 @@ task import: [:environment] do
   Rake::Task["db:create"].execute
   Rake::Task["db:migrate"].execute
 
-  tables = ['merchants', 'customers']
+  tables = ['merchants', 'customers', 'items', 'invoices', 'transactions', 'invoice_items']
 
   tables.each do |table|
     model_name = table.camelize.singularize.constantize
