@@ -1,21 +1,16 @@
 class Api::V1::Merchants::SearchController < ApplicationController
 
   def index
-    render json: MerchantSearchSerializer.new(Merchant.where(search_params))
+    render json: MerchantSerializer.new(Merchant.where(search_params))
   end
 
   def show
-    render json: MerchantSearchSerializer.new(Merchant.find_by(search_params))
+    render json: MerchantSerializer.new(Merchant.find_by(search_params))
   end
 
   private
 
   def search_params
-    attributes = ["name", "id", "created_at", "updated_at"]
-    attributes.each do |attribute|
-      if params.keys.include?(attribute)
-        return search_params = {attribute => params[attribute]}
-      end
-    end
+    params.permit(:name, :id, :created_at, :updated_at)
   end
 end

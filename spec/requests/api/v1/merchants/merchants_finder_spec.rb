@@ -4,14 +4,14 @@ require 'pry'
 describe "Merchants API finders" do
   it "can search by name" do
     create_list(:merchant, 3)
+    expected_name = Merchant.first.name
 
-    get '/api/v1/merchants/find?name=MerchantName1'
-    # binding.pry
+    get "/api/v1/merchants/find?name=#{expected_name}"
 
     merchant = JSON.parse(response.body)
 
     expect(response).to be_successful
-    expect(merchant["data"]["attributes"]["name"]).to eq('MerchantName1')
+    expect(merchant["data"]["attributes"]["name"]).to eq("#{expected_name}")
 
   end
 
@@ -27,19 +27,17 @@ describe "Merchants API finders" do
   end
 
   it "can search by created_at" do
-    create_list(:merchant, 3)
-    expected_creation = Merchant.first.created_at
-    # binding.pry
+    merchant = Merchant.create(name: "Koepp, Waelchi and Donnelly",
+                         created_at: "2012-03-27 14:54:05 UTC",
+                         updated_at: "2012-03-27 14:54:05 UTC")
 
-    get "/api/v1/merchants/find?created_at=#{expected_creation}"
+    get "/api/v1/merchants/find?created_at=2012-03-27 14:54:05 UTC"
 
     merchant = JSON.parse(response.body)
-    # binding.pry
     expect(response).to be_successful
-    expect(merchant["data"]["attributes"]["created_at"]).to eq(expected_creation.as_json)
+    expect(merchant["data"]["attributes"]["name"]).to eq("Koepp, Waelchi and Donnelly")
   end
 
-  #created_at and #updated_at should be identical to the id test
 
   it "can find all by name" do
     create_list(:merchant, 3)
@@ -47,7 +45,6 @@ describe "Merchants API finders" do
     get "/api/v1/merchants/find_all?name=#{expected_name}"
 
     merchant = JSON.parse(response.body)["data"][0]
-    #even though we returned only one element it was in array format, indicating this should work
 
     expect(response).to be_successful
     expect(merchant["attributes"]["name"]).to eq("#{expected_name}")
