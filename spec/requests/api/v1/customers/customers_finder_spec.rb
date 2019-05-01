@@ -35,6 +35,25 @@ describe "Customers API finders" do
     expect(customer["data"]["attributes"]["last_name"]).to eq(expected_last_name)
   end
 
+  it "can find all by created_at" do
+    Merchant.create(name: "Koepp, Waelchi and Donnelly",
+                         created_at: "2012-03-27 14:54:05 UTC",
+                         updated_at: "2012-03-27 14:54:05 UTC")
+    Merchant.create(name: "Koepp, Waelchi and Donnelly2",
+                         created_at: "2012-03-27 14:54:05 UTC",
+                         updated_at: "2012-03-27 14:54:05 UTC")
+    Merchant.create(name: "Koepp, Waelchi and Donnelly3",
+                         created_at: "2012-03-27 14:54:05 UTC",
+                         updated_at: "2012-03-27 14:54:05 UTC")
+
+    get "/api/v1/merchants/find_all?created_at=2012-03-27 14:54:05 UTC"
+
+    merchant = JSON.parse(response.body)["data"]
+
+    expect(response).to be_successful
+    expect(merchant.count).to eq(3)
+  end
+
 
 
 end
