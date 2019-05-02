@@ -11,6 +11,6 @@ class Invoice < ApplicationRecord
   select("SUM(invoice_items.quantity * invoice_items.unit_price) AS total_revenue")
     .joins(:invoice_items, :transactions)
     .where(transactions: {result: "success"})
-    .where(created_at: [start_time..end_time])
+    .where(created_at: [start_time..end_time])[0]
   end
 end
