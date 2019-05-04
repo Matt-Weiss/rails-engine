@@ -22,4 +22,14 @@ class Merchant < ApplicationRecord
       .limit(num_records)
   end
 
+  def self.favorite_merchant(customer)
+    select("merchants.*, COUNT(invoices.customer_id) AS count_id")
+    .joins(invoices: :transactions)
+    .where(transactions: {result: "success"})
+    .where("invoices.customer_id = #{customer}")
+    .group(:id)
+    .order("count_id DESC")
+    .first
+  end
+
 end

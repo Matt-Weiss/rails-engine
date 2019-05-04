@@ -1,7 +1,7 @@
 class Api::V1::Merchants::RevenueByDayController < ApplicationController
 
   def index
-    render json: RevenueByDaySerializer.new(Invoice.revenue_by_day(search_params[:date])[0])
+    render json: RevenueByDaySerializer.new(Invoice.revenue_by_day(search_params[:date]))
   end
 
 
