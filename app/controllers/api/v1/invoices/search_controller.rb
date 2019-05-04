@@ -1,7 +1,8 @@
 class Api::V1::Invoices::SearchController < ApplicationController
 
   def index
-    render json: InvoiceSerializer.new(Invoice.where(search_params))
+    # binding.pry
+    render json: InvoiceSerializer.new(Invoice.where(search_params).order(:id))
   end
 
   def show
