@@ -13,8 +13,10 @@ rspec-rails, factory_bot_rails, shoulda-matchers, simplecov for testing
 ### Setup
 
 clone down repo
-run
-`bundle install` to install all dependent gems
+
+run `bundle install` to install all dependent gems
+
+
 `rake import` to create database and run migrations, as well as import .csv data into database
 
 `rspec` will run the test suite
