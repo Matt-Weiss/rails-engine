@@ -36,17 +36,19 @@ describe "Customers API finders" do
   end
 
   it "can find all by created_at" do
-    Merchant.create(name: "Koepp, Waelchi and Donnelly",
-                         created_at: "2012-03-27 14:54:05 UTC",
-                         updated_at: "2012-03-27 14:54:05 UTC")
-    Merchant.create(name: "Koepp, Waelchi and Donnelly2",
-                         created_at: "2012-03-27 14:54:05 UTC",
-                         updated_at: "2012-03-27 14:54:05 UTC")
-    Merchant.create(name: "Koepp, Waelchi and Donnelly3",
-                         created_at: "2012-03-27 14:54:05 UTC",
-                         updated_at: "2012-03-27 14:54:05 UTC")
-
-    get "/api/v1/merchants/find_all?created_at=2012-03-27 14:54:05 UTC"
+    Customer.create(first_name: "Joey",
+                     last_name: "Ondricka",
+                    created_at: "2012-03-27 14:54:05 UTC",
+                    updated_at: "2012-03-27 14:54:05 UTC")
+    Customer.create(first_name: "Cecilia",
+                     last_name: "Osinski",
+                    created_at: "2012-03-27 14:54:05 UTC",
+                    updated_at: "2012-03-27 14:54:05 UTC")
+    Customer.create(first_name: "Matt",
+                     last_name: "Weiss",
+                    created_at: "2012-03-27 14:54:05 UTC",
+                    updated_at: "2012-03-27 14:54:05 UTC")
+    get "/api/v1/customers/find_all?created_at=2012-03-27 14:54:05 UTC"
 
     merchant = JSON.parse(response.body)["data"]
 
